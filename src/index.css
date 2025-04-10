@@ -30,13 +30,6 @@ body {
   background: #f3f3f5;
   color: var(--tree-text);
   margin: 0;
-  height: 100vh;
-}
-
-footer {
-  padding: 10px 0;
-  text-align: center;
-  box-shadow: #1a1a1a 0px 0px 10px -6px;
 }
 
 nav {
@@ -49,14 +42,16 @@ nav {
 
 #workspace-tabs{
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   width: 100%;
-  height: 70px;
   background-color: var(--tree-bg);
   border-bottom: 1px solid #d8d7d9;
   box-sizing: border-box;
-  z-index: 1;
+  
+}
+
+#workspace-tabs > uui-tab-group {
+  --uui-tab-text: #1b264f; 
+  height: 70px;
 }
 
 #content-container {
@@ -80,6 +75,7 @@ h1 {
   width: 340px;
   background-color: var(--tree-bg);
   height: 100%;
+  border-right: 1px solid #d8d7d9;
 }
 
 #content-tree > h1 {
