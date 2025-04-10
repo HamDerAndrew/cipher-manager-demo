@@ -11,7 +11,7 @@
   </head>
   <body>
     <nav>
-      <uui-tab-group>
+      <uui-tab-group id="tabs">
         <uui-tab label="content" active="">Content</uui-tab>
         <uui-tab label="Packages">Packages</uui-tab>
         <uui-tab label="Media">Media</uui-tab>
@@ -144,8 +144,18 @@
         </ul>
         <h1>Fun fact: This tool/package eventually turned into the feature <a href="https://docs.umbraco.com/umbraco-cloud/security#tls-ciphers-support">TLS Ciphers support</a> in <a href="https://umbraco.com/products/umbraco-cloud/">Umbraco Cloud</a> </h1>
       </div>
-      <my-element>
-      </my-element>
+      <div id="workspace">
+        <div id="workspace-tabs">
+          <uui-tab-group style="--uui-tab-text: #1b264f;">
+            <uui-tab label="content" active="">Cipher Manager</uui-tab>
+            <uui-tab label="content">Environments</uui-tab>
+            <uui-tab label="Packages">Getting Started</uui-tab>
+            <uui-tab label="Media">Redirect Management</uui-tab>
+          </uui-tab-group>
+        </div>
+        <my-element>
+        </my-element>
+      </div>
     </div>
 
     <footer>

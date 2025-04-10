@@ -42,6 +42,23 @@ footer {
 nav {
   background-color: #1b264f;
 }
+
+#workspace {
+  width: 100%;
+}
+
+#workspace-tabs{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  background-color: var(--tree-bg);
+  border-bottom: 1px solid #d8d7d9;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
 #content-container {
   display: flex; 
   height: 100vh;
@@ -49,6 +66,7 @@ nav {
 
 uui-tab-group {
   --uui-tab-text: white;
+  height: 60px;
   /* --uui-tab-group-gap: 10px; */
 }
 
