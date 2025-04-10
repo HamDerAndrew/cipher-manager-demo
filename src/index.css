@@ -26,13 +26,25 @@
 
 body {
   font-family: "Segoe UI", system-ui, sans-serif;
-  background: var(--tree-bg);
+  /* background: var(--tree-bg); */
+  background: #f3f3f5;
   color: var(--tree-text);
   margin: 0;
+  height: 100vh;
+}
+
+footer {
+  padding: 10px 0;
+  text-align: center;
+  box-shadow: #1a1a1a 0px 0px 10px -6px;
 }
 
 nav {
   background-color: #1b264f;
+}
+#content-container {
+  display: flex; 
+  height: 100vh;
 }
 
 uui-tab-group {
@@ -48,6 +60,8 @@ h1 {
 
 #content-tree {
   width: 340px;
+  background-color: var(--tree-bg);
+  height: 100%;
 }
 
 #content-tree > h1 {

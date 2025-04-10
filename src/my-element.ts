@@ -372,6 +372,7 @@ export class MyElement extends LitElement {
       box-sizing: border-box;
       height: 100%;
       overflow-y: scroll;
+      width: 100%;
     }
 
     uui-table {
