@@ -1,0 +1,112 @@
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(5, 4, 4, 0.87);
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ */
+
+:root {
+  --tree-bg: #fff;
+  --tree-text: #1a1a1a;
+  --tree-accent: #0078d4;
+  --tree-hover: #f3f4f6;
+  --tree-indent: 1rem;
+  --icon-size: 16px;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--tree-bg);
+  color: var(--tree-text);
+  margin: 0;
+}
+
+nav {
+  background-color: #1b264f;
+}
+
+uui-tab-group {
+  --uui-tab-text: white;
+  /* --uui-tab-group-gap: 10px; */
+}
+
+h1 {
+  font-size: 1.25rem;
+  color: var(--tree-accent);
+  margin-bottom: 1.5rem;
+}
+
+#content-tree {
+  width: 340px;
+}
+
+#content-tree > h1 {
+  padding-left: 2rem;
+  padding-top: 1.5rem;  
+  color: var(--tree-text);
+  font-weight: 450;
+}
+
+.tree {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.tree li {
+  position: relative;
+  margin: 0;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+  cursor: pointer;
+  border-radius: 4px;
+  display: block;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.tree li:hover {
+  background: var(--tree-hover);
+}
+
+.tree li::before {
+  content: "";
+  display: inline-block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tree li.branch::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-folder'%3E%3Cpath d='M3 4a2 2 0 0 1 2-2h2l1 1h5a2 2 0 0 1 2 2v1'/%3E%3Cpath d='M3 8h10a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2Z'/%3E%3C/svg%3E");
+}
+
+.tree li.leaf::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-file'%3E%3Cpath d='M14 13V4a2 2 0 0 0-2-2H6l-4 4v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2Z'/%3E%3C/svg%3E");
+}
+
+.tree ul {
+  list-style: none;
+  margin: 0;
+  padding-left: var(--tree-indent);
+  display: none;
+}
+
+.tree li.open > ul {
+  display: block;
+}
