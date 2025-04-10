@@ -66,27 +66,6 @@ export const testHostname:any = {
     ]
 }
 
-// private static AllCiphers<Cipher> = new()
-// {
-//     new Cipher(){ Name = "ECDHE-RSA-CHACHA20-POLY1305", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Modern", CipherSuite = "[0xcca8]", IANA = "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256" },
-//     new Cipher(){ Name = "ECDHE-ECDSA-AES128-SHA256", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Compatible", CipherSuite = "[0xc023]", IANA = "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256" },
-//     new Cipher(){ Name = "ECDHE-ECDSA-AES128-SHA", MinimumProtocol = "TLS 1.0", SecurityRecommendation="Legacy", CipherSuite = "[0xc009]", IANA = "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA" },
-//     new Cipher(){ Name = "ECDHE-RSA-AES128-SHA256", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Compatible", CipherSuite = "[0xc027]", IANA = "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256" },
-//     new Cipher(){ Name = "ECDHE-RSA-AES128-SHA", MinimumProtocol = "TLS 1.0", SecurityRecommendation="Modern", CipherSuite = "[0xc013]", IANA = "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA" },
-//     new Cipher(){ Name = "AES128-GCM-SHA256", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Legacy", CipherSuite = "[0x9c]", IANA = "TLS_RSA_WITH_AES_128_GCM_SHA256" },
-//     new Cipher(){ Name = "AES128-SHA256", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Legacy", CipherSuite = "[0x3c]", IANA = "TLS_RSA_WITH_AES_128_CBC_SHA256" },
-//     new Cipher(){ Name = "AES128-SHA", MinimumProtocol = "TLS 1.0", SecurityRecommendation="Legacy", CipherSuite = "[0x2f]", IANA = "TLS_RSA_WITH_AES_128_CBC_SHA" },
-//     new Cipher(){ Name = "ECDHE-ECDSA-AES256-GCM-SHA384", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Modern", CipherSuite = "[0xc02c]", IANA = "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384" },
-//     new Cipher(){ Name = "ECDHE-ECDSA-AES256-SHA384", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Compatible", CipherSuite = "[0xc024]", IANA = "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384" },
-//     new Cipher(){ Name = "ECDHE-RSA-AES256-GCM-SHA384", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Modern", CipherSuite = "[0xc030]", IANA = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384" },
-//     new Cipher(){ Name = "ECDHE-RSA-AES256-SHA384", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Compatible", CipherSuite = "[0xc028]", IANA = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384" },
-//     new Cipher(){ Name = "ECDHE-RSA-AES256-SHA", MinimumProtocol = "TLS 1.0", SecurityRecommendation="Legacy", CipherSuite = "[0xc014]", IANA = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA" },
-//     new Cipher(){ Name = "AES256-GCM-SHA384", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Legacy", CipherSuite = "[0x9d]", IANA = "TLS_RSA_WITH_AES_256_GCM_SHA384" },
-//     new Cipher(){ Name = "AES256-SHA256", MinimumProtocol = "TLS 1.2", SecurityRecommendation="Legacy", CipherSuite = "[0x3d]", IANA = "TLS_RSA_WITH_AES_256_CBC_SHA256" },
-//     new Cipher(){ Name = "AES256-SHA", MinimumProtocol = "TLS 1.0", SecurityRecommendation="Legacy", CipherSuite = "[0x35]", IANA = "TLS_RSA_WITH_AES_256_CBC_SHA" },
-//     new Cipher(){ Name = "DES-CBC3-SHA", MinimumProtocol = "TLS 1.0", SecurityRecommendation="Legacy", CipherSuite = "[0x0701c0]", IANA = "SSL_CK_DES_192_EDE3_CBC_WITH_SHA" }
-// };
-
 
 // <ul>
 // ${this.hostnameArray.map((hostname: string) => {
