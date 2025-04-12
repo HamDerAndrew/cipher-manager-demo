@@ -97,17 +97,17 @@ h1 {
 .tree li {
   position: relative;
   margin: 0;
-  padding: 0.5rem 0.5rem 0.5rem 2rem;
+  /* padding: 0.5rem 0.5rem 0.5rem 2rem; */
   cursor: pointer;
   border-radius: 4px;
   display: block;
   align-items: center;
-  transition: background 0.2s ease;
+  /* transition: background 0.2s ease; */
 }
 
-.tree li:hover {
+/* .tree li:hover {
   background: var(--tree-hover);
-}
+} */
 
 .tree li::before {
   content: "";
@@ -133,10 +133,37 @@ h1 {
 .tree ul {
   list-style: none;
   margin: 0;
-  padding-left: var(--tree-indent);
+  /* padding-left: var(--tree-indent); */
+  padding-left: 0;
   display: none;
 }
 
 .tree li.open > ul {
   display: block;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+}
+
+.node > p {
+  margin-left: 7px;
+}
+
+.node:hover {
+  background: var(--tree-hover);
+}
+
+.branch {
+  margin-left: 10px;
+}
+
+.branch > ul > li:hover {
+  background: var(--tree-hover);
+}
+
+.branch > ul > li {
+  padding-left: 20px;
 }
