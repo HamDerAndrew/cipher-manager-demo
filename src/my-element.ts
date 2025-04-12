@@ -373,6 +373,8 @@ export class MyElement extends LitElement {
       height: 100%;
       overflow-y: scroll;
       width: 100%;
+      background: #f3f3f5;
+      border-left: 1px solid #d8d7d9;
     }
 
     uui-table {
