@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
-import { testHostname, Cipher } from "./all-cipers-list";
+import { Cipher, allCiphers } from "./all-cipers-list";
 import '@umbraco-ui/uui';
 
 type HostNameWithCipherInfo = {
@@ -18,7 +18,7 @@ export class MyElement extends LitElement {
   baseApiUrl = "backoffice/ManageCloudCiphers/Dashboard/";
 
   @property({ type: String })
-  hostnames: string = "magichat.uk.net chadmagus.com hello.com www.absurdlonghostnamefromtheukthatwillkeepongoinguntilisaystophaha.uk.net";
+  hostnames: string = "magichat.uk chadmagus.com";
 
   @property({ type: Array })
   hostnameArray: string[] = [];
@@ -48,6 +48,11 @@ export class MyElement extends LitElement {
     this.hostnames = input.value;
   };
 
+  isValidHostname(host: string): boolean {
+    const hostnameRegex = /^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)(?:\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$/;
+    return hostnameRegex.test(host);
+  }
+
   loadCiphers = async () => {
     this.isLoading = true;
     // Split hostnames into an array. Regex matches any single character that is either a comma (,), a newline character (\n), a space (' '), a double quote ("), or a single quote (').
@@ -57,72 +62,78 @@ export class MyElement extends LitElement {
 
     if (
       hostnameArray.length > 0 &&
-      confirm(
-        "Are you sure you want to load ciphers for\n" +
-          hostnameArray.join("\n") +
-          " ?"
-      )
-    ) {
+      confirm("Are you sure you want to load ciphers for\n" + hostnameArray.join("\n") +" ?")) {
       try {
         //Mock request. Doesn't do anything relevant yet.
-        const response = await fetch(
-          `${this.baseApiUrl}LoadCiphers?customHostnames=${hostnameArray.join(
-            "&customHostnames="
-          )}`
-        );
+        const response = await fetch(`${this.baseApiUrl}LoadCiphers?customHostnames=${hostnameArray.join("&customHostnames=")}`);
         //Make sure to clear ciphers to avoid duplicate
         this.clearCiphers();
         if (response) {
           this.hostnameArray = hostnameArray;
-          // Mock response
-          this.hostnameWithCipherInfo = testHostname;
-          // Create an array of propertymappings that allows users to disable ciphers based on Cipher properties mentioned in the comments below:
-          this.hostnameWithCipherInfo.AllCiphers.forEach(
-            (cipherInfo: Cipher) => {
-              // Minimum Protocol
-              let minimumProtocol = cipherInfo.MinimumProtocol.split(" ")[1];
-              if (this.cipherPropertiesMapping[minimumProtocol]) {
-                this.cipherPropertiesMapping[minimumProtocol].push(
-                  cipherInfo.Name
-                );
-              } else {
-                this.cipherPropertiesMapping[minimumProtocol] = [
-                  cipherInfo.Name,
-                ];
-              }
-              // Security Recommendation
-              let securityRecommendation =
-                cipherInfo.SecurityRecommendation.toLowerCase();
-              if (this.cipherPropertiesMapping[securityRecommendation]) {
-                this.cipherPropertiesMapping[securityRecommendation].push(
-                  cipherInfo.Name
-                );
-              } else {
-                this.cipherPropertiesMapping[securityRecommendation] = [
-                  cipherInfo.Name,
-                ];
-              }
-              // Ciphersuite Name
-              if (this.cipherPropertiesMapping[cipherInfo.CipherSuite]) {
-                this.cipherPropertiesMapping[cipherInfo.CipherSuite].push(
-                  cipherInfo.Name
-                );
-              } else {
-                this.cipherPropertiesMapping[cipherInfo.CipherSuite] = [
-                  cipherInfo.Name,
-                ];
-              }
-              // IANA
-              let iana = cipherInfo.IANA.toLowerCase();
-              if (this.cipherPropertiesMapping[iana]) {
-                this.cipherPropertiesMapping[iana].push(cipherInfo.Name);
-              } else {
-                this.cipherPropertiesMapping[iana] = [cipherInfo.Name];
-              }
+          // Declare this here to be able to add each valid hostname to EligibleHostnames further down
+          const eligibleHostnames = {} as Record<string, boolean>
+          //Build array of objects
+          this.hostnameArray.forEach(hostname => {
+            if(this.isValidHostname(hostname)) {
+              eligibleHostnames[hostname] = true
+            } else {
+              eligibleHostnames[hostname] = false
             }
-          );
+            if(localStorage.getItem(`${hostname}`) !== null) {
+              // If the hostname is present, load enabled/disabled ciphers
+              const hostnameDetails = JSON.parse(localStorage.getItem(`${hostname}`))
+              const test = {
+                EligibleHostnames: eligibleHostnames,
+                AllCiphers: allCiphers,
+                EnabledCiphers: hostnameDetails,
+                EnforcedCiphers: [
+                  { Name: "ECDHE-RSA-CHACHA20-POLY1305", MinimumProtocol: "TLS 1.2", SecurityRecommendation:"Modern", CipherSuite: "[0xcca8]", IANA: "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256" },
+                  { Name: "ECDHE-RSA-AES128-SHA", MinimumProtocol: "TLS 1.0", SecurityRecommendation:"Modern", CipherSuite:"[0xc013]", IANA: "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA" },
+                  { Name:"ECDHE-RSA-AES256-SHA384", MinimumProtocol: "TLS 1.2", SecurityRecommendation:"Compatible", CipherSuite: "[0xc028]", IANA:"TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384" }
+                ]
+              }
+
+              this.hostnameWithCipherInfo = test
+            } else {
+              const obj: HostNameWithCipherInfo  = {
+                EligibleHostnames: eligibleHostnames as Record<string, boolean>,
+                AllCiphers: allCiphers,
+                EnabledCiphers: {        "AES128-GCM-SHA256": true,
+                  "AES128-SHA": true,
+                  "AES128-SHA256": true,
+                  "AES256-GCM-SHA384": true,
+                  "AES256-SHA": true,
+                  "AES256-SHA256": true,
+                  "DES-CBC3-SHA": true,
+                  "ECDHE-ECDSA-AES128-GCM-SHA256": true,
+                  "ECDHE-ECDSA-AES128-SHA": true,
+                  "ECDHE-ECDSA-AES128-SHA256": true,
+                  "ECDHE-ECDSA-AES256-GCM-SHA384": true,
+                  "ECDHE-ECDSA-AES256-SHA384": true,
+                  "ECDHE-ECDSA-CHACHA20-POLY1305": true,
+                  "ECDHE-RSA-AES128-GCM-SHA256": true,
+                  "ECDHE-RSA-AES128-SHA": true,
+                  "ECDHE-RSA-AES128-SHA256": true,
+                  "ECDHE-RSA-AES256-GCM-SHA384": true,
+                  "ECDHE-RSA-AES256-SHA": true,
+                  "ECDHE-RSA-AES256-SHA384": true,
+                  "ECDHE-RSA-CHACHA20-POLY1305": true},
+                EnforcedCiphers: [
+                  { Name: "ECDHE-RSA-CHACHA20-POLY1305", MinimumProtocol: "TLS 1.2", SecurityRecommendation:"Modern", CipherSuite: "[0xcca8]", IANA: "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256" },
+                  { Name: "ECDHE-RSA-AES128-SHA", MinimumProtocol: "TLS 1.0", SecurityRecommendation:"Modern", CipherSuite:"[0xc013]", IANA: "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA" },
+                  { Name:"ECDHE-RSA-AES256-SHA384", MinimumProtocol: "TLS 1.2", SecurityRecommendation:"Compatible", CipherSuite: "[0xc028]", IANA:"TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384" }
+                ]
+              }
+              this.hostnameWithCipherInfo = obj;
+              // Create an array of propertymappings that allows users to disable ciphers based on Cipher properties mentioned in the comments below:
+              this.propertyMapping()
+            }
+          })
+          // Mock response
         }
         this.isLoading = false;
+
+        // TODO: Need to make a check if the hostname already exists or has ciphers changed
       } catch (error) {
         console.log(error);
         this.isLoading = false;
@@ -132,6 +143,53 @@ export class MyElement extends LitElement {
       this.clearCiphers();
     }
   };
+
+  propertyMapping = ():void => {
+    this.hostnameWithCipherInfo.AllCiphers.forEach(
+      (cipherInfo: Cipher) => {
+        // Minimum Protocol
+        let minimumProtocol = cipherInfo.MinimumProtocol.split(" ")[1];
+        if (this.cipherPropertiesMapping[minimumProtocol]) {
+          this.cipherPropertiesMapping[minimumProtocol].push(
+            cipherInfo.Name
+          );
+        } else {
+          this.cipherPropertiesMapping[minimumProtocol] = [
+            cipherInfo.Name,
+          ];
+        }
+        // Security Recommendation
+        let securityRecommendation =
+          cipherInfo.SecurityRecommendation.toLowerCase();
+        if (this.cipherPropertiesMapping[securityRecommendation]) {
+          this.cipherPropertiesMapping[securityRecommendation].push(
+            cipherInfo.Name
+          );
+        } else {
+          this.cipherPropertiesMapping[securityRecommendation] = [
+            cipherInfo.Name,
+          ];
+        }
+        // Ciphersuite Name
+        if (this.cipherPropertiesMapping[cipherInfo.CipherSuite]) {
+          this.cipherPropertiesMapping[cipherInfo.CipherSuite].push(
+            cipherInfo.Name
+          );
+        } else {
+          this.cipherPropertiesMapping[cipherInfo.CipherSuite] = [
+            cipherInfo.Name,
+          ];
+        }
+        // IANA
+        let iana = cipherInfo.IANA.toLowerCase();
+        if (this.cipherPropertiesMapping[iana]) {
+          this.cipherPropertiesMapping[iana].push(cipherInfo.Name);
+        } else {
+          this.cipherPropertiesMapping[iana] = [cipherInfo.Name];
+        }
+      }
+    );
+  }
 
   noCiphers = (): boolean => {
     return !this.hostnameWithCipherInfo.AllCiphers.length;
@@ -170,8 +228,7 @@ export class MyElement extends LitElement {
   };
 
   patchHostnameCiphers = (): void => {
-    if (
-      this.hostnameArray.length > 0 &&
+    if (this.hostnameArray.length > 0 &&
       confirm(
         "Are you sure you want to patch ciphers for\n" +
           this.hostnameArray.join("\n") +
@@ -179,11 +236,11 @@ export class MyElement extends LitElement {
       )
     ) {
       this.patchingCiphers = true;
-      /*
-      TO DO: Post request to baseApiUrl + "PatchHostnameCiphers"
-      For now, just clear the ciphers and "reset" by calling this.clearCiphers().
-      The DashboardController.cs doesn't work correctly. It returns a malformed URL.
-      */
+      this.hostnameArray.forEach(hostname => {
+        if(this.isValidHostname(hostname)) {
+          localStorage.setItem(`${hostname}`, JSON.stringify(this.hostnameWithCipherInfo.EnabledCiphers))
+        }
+      })
       this.clearCiphers();
     }
   };
