@@ -81,7 +81,7 @@ export class MyElement extends LitElement {
             }
             if(localStorage.getItem(`${hostname}`) !== null) {
               // If the hostname is present, load enabled/disabled ciphers
-              const hostnameDetails = JSON.parse(localStorage.getItem(`${hostname}`))
+              const hostnameDetails = JSON.parse(localStorage.getItem(`${hostname}`)!)
               const test = {
                 EligibleHostnames: eligibleHostnames,
                 AllCiphers: allCiphers,
